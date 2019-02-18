@@ -1,0 +1,42 @@
+#Auteur = Alexandre DUARTE
+#Classe = M2I L3 Cybersécurité
+
+#Librairies utilisées
+from tkinter import *
+from tkinter import filedialog
+from sys import *
+from csv import *
+from subprocess import *
+
+#Fonction : interface graphique + création de la campagne au format .txt
+def fenetre_creer_campagne():
+    fenetre_secondaire1 = filedialog.asksaveasfilename(title="Enregistrer sous :",initialdir="C:/",defaultextension="*.txt",filetypes=[('.txt files', '.txt'), ('All files', '.*')])
+    fichier_txt = open(fenetre_secondaire1,"a")
+    fichier_txt.close()
+
+#Fonction : interface graphique + transfert des données du fichier .csv vers fichier.txt (campagne)
+def fenetre_importer_csv():
+    fenetre_secondaire2 = filedialog.askopenfilename(title="Choisissez votre fichier .txt :",initialdir="C:/",defaultextension="*.txt",filetypes=[('.txt files', '.txt'), ('All files', '.*')])
+    fenetre_secondaire3 = filedialog.askopenfilename(title="Choisissez votre fichier .csv :",initialdir="C:/",defaultextension="*.csv",filetypes=[('.csv files', '.csv'), ('All files', '.*')] )
+    fichier_txt = open(fenetre_secondaire2,"r+")
+    fichier_csv = open(fenetre_secondaire3,"r+")
+    reader_csv = reader(fichier_csv)
+    for row in reader_csv:
+        info = (" ; ".join(row))
+        fichier_txt.write(info)
+    fichier_txt.close()
+    fichier_csv.close()
+
+#Fenêtre principale
+fenetre_principale = Tk()
+fenetre_principale.title("Projet WebTarget")
+fenetre_principale.config(padx=50, pady=50)
+
+boutton = Button(fenetre_principale, text="Créer une campagne", command=fenetre_creer_campagne)
+boutton.pack(pady=10)
+
+boutton2 = Button(fenetre_principale, text="Importer des contacts d'un fichier .csv", command=fenetre_importer_csv)
+boutton2.pack(pady=10)
+
+fenetre_principale.mainloop()
+#Fin fenêtre principale
